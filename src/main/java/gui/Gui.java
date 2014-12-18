@@ -3,14 +3,13 @@ package gui;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 /**
  * Created by ksh on 2014-05-24.
  */
-public class Gui extends Frame {
+public class MainFrame extends Frame {
 
-    public Gui() {
+    public MainFrame() {
     }
 
     public void showGui() {
@@ -25,7 +24,7 @@ public class Gui extends Frame {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                Panel panel = new Buliding("1b", 8, 20, 70);
+                Panel panel = new MainPanel("1b", 8, 20, 70);
                 add(panel);
             }
         });
