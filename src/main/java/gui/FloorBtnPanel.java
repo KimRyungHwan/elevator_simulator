@@ -10,13 +10,14 @@ import java.awt.event.ActionListener;
 * Created by ksh on 2014-05-24.
 */
 class FloorBtnPanel extends Panel implements ActionListener {
-    private String ID = null;
-    public final static int HEIGHT = 57, WIDTH = 30;
+
+    private int height = 57, width = 30;
+    private int floorNum;
     private InputBuffer inputBuffer = InputBuffer.getInstance();
     private Button upBtn, downBtn;
 
-    public FloorBtnPanel(String ID, int x, int floor) {
-        this.ID = ID;
+    public FloorBtnPanel(int floorNum, int x, int floor) {
+        this.floorNum = floorNum;
         setBounds(x, height * (floor-1), width, height);
         setBackground(Color.GRAY);
         setLayout(null);
@@ -47,14 +48,10 @@ class FloorBtnPanel extends Panel implements ActionListener {
 
     }
 
-    private int getFloor(){
-        String[] str = ID.split("_|f");
-        int result = Integer.parseInt(str[1]);
-        return result;
-    }
+    private int getFloor() {
+        return floorNum;
 
-    public int getWidth(){
-        return this.width;
+
     }
 
     public void toggleBtn(String upDown){

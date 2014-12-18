@@ -26,12 +26,11 @@ class MainPanel extends Panel{
 
         int pointX=0,pointY=0;
         floorBtnPanels = new ArrayList<FloorBtnPanel>();
-        for(int i= 1;i<=numOfFloor; i++){
-            FloorBtnPanel panel = new FloorBtnPanel(ID+"_"+i+"f",pointX,FloorBtnPanel.HEIGHT*(numOfFloor-i));
-            floorBtnPanels.add(panel);
+        for(int floorNum= 1;floorNum<=numOfFloor; floorNum++){
+            FloorBtnPanel panel = new FloorBtnPanel(floorNum, pointX, numOfFloor-floorNum+1);
             add(panel);
         }
-        pointX += FloorBtnPanel.WIDTH;
+        pointX += floorBtnPanels.get(0).getWidth();
 
         buildingPanel = new BuildingPanel(ID,numOfFloor,pointX,0);
         add(buildingPanel);

@@ -5,7 +5,7 @@ import middle.InputBuffer;
 
 import java.awt.*;
 import java.util.Timer;
-import java.util.Timer
+import java.util.TimerTask;
 
 /**
  * Created by ksh on 2014-05-24.
@@ -16,7 +16,7 @@ class ElevatorPanel extends Panel {
     private int maxHeight;
     private int x, y;
     private int doorGap;
-    private Statement elevator;
+    private Statement statement;
     private InputBuffer inputBuffer;
     private int speed;
     private int doorSpeed=4;
@@ -32,8 +32,8 @@ class ElevatorPanel extends Panel {
 
         inputBuffer = InputBuffer.getInstance();
 
-        Statement = Statement.getInstance();
-        speed = Statement.SPEED;
+        statement = Statement.getInstance();
+        speed = statement.getSpeed();
         Timer timer = new Timer();
         Move move = new Move();
         timer.schedule(move, 0, 34);
@@ -73,8 +73,8 @@ class ElevatorPanel extends Panel {
 
     class Move extends TimerTask {
         private void move() {
-            Statement.ServiceState serviceState = Statement.getServiceState();
-            Statement.MoveState moveState = Statement.getMoveState();
+            Statement.ServiceState serviceState = statement.getServiceState();
+            Statement.MoveState moveState = statement.getMoveState();
             if(isDoorClose() && serviceState == Statement.ServiceState.SERVICE){
                 if (moveState == Statement.MoveState.UP) {
                     y -= speed;
@@ -82,7 +82,7 @@ class ElevatorPanel extends Panel {
                     y += speed;
                 }
             }else if(serviceState == Statement.ServiceState.PAUSE){
-                Statement.DoorState doorState = Statement.getCurrentDoorState();
+                Statement.DoorState doorState = statement.getCurrentDoorState();
                 if(doorState == Statement.DoorState.OPENING){
                     doorGap+=doorSpeed;
                 }else if(doorState == Statement.DoorState.CLOSEING){
@@ -96,11 +96,11 @@ class ElevatorPanel extends Panel {
             repaint();
         }
         private void checkServiceState(){
-            Statement.ServiceState serviceState = Statement.getServiceState();
+            Statement.ServiceState serviceState = statement.getServiceState();
             if(serviceState == Statement.ServiceState.PAUSE) {
-                Statement.setMoveState(Statement.MoveState.NO_MOVE);
-                Statement.setServiceState(Statement.ServiceState.PAUSE);
-                int currentFloor = Statement.getCurrentFloor();
+                statement.setMoveState(Statement.MoveState.NO_MOVE);
+                statement.setServiceState(Statement.ServiceState.PAUSE);
+                int currentFloor = statement.getCurrentFloor();
                 inputBuffer.removeSelectionFloorInElevator(currentFloor);
                 inputBuffer.removeSelectionFloor(currentFloor);
             }
@@ -109,7 +109,7 @@ class ElevatorPanel extends Panel {
         private void checkCurrentFloor() {
             if (y % (HEIGHT + 4) < 5) {
                 int currentFloor = maxHeight / (HEIGHT + 4) - y / (HEIGHT + 4);
-                Statement.setCurrentFloor(currentFloor);
+                statement.setCurrentFloor(currentFloor);
             }
         }
 

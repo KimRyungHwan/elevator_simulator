@@ -8,12 +8,13 @@ import java.util.*;
 /*
 엘레베이터의 상태를 저장하는 클래스
  */
-public class Elevator {
-    private static Elevator instance = null;
-    public final int SPEED = 4;
+public class Statement {
+    private static Statement instance = null;
+    public final int speed = 4;
 
-
-
+    public int getSpeed() {
+        return speed;
+    }
 
     public enum DoorState {OPEN, OPENING, CLOSE, CLOSEING}
 
@@ -30,17 +31,17 @@ public class Elevator {
     private int currentFloor = 8;
 
 
-    private Elevator() {
+    private Statement() {
         Timer timer = new Timer();
         CheckState checkState = new CheckState();
         timer.schedule(checkState, 0, 34);
     }
 
-    public static Elevator getInstance() {
+    public static Statement getInstance() {
         if (instance == null) {
             synchronized (InputBuffer.class) {
                 if (instance == null) {
-                    instance = new Elevator();
+                    instance = new Statement();
                 }
             }
         }
@@ -52,9 +53,6 @@ public class Elevator {
         return currentDoorState;
     }
 
-
-
-
     public MoveState getMoveState() {
         return currentMoveState;
     }
@@ -63,7 +61,6 @@ public class Elevator {
         return currentServiceState;
     }
 
-    public int getCurrentFloor() { return currentFloor; }
     //setters
 
     public void setServiceState(ServiceState currentServiceState) {
@@ -73,8 +70,6 @@ public class Elevator {
     public void setMoveState(MoveState moveState) {
         currentMoveState = moveState;
     }
-
-
 
 
     public void setCurrentFloor(int floor) {

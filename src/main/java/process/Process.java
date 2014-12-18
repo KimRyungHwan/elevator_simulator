@@ -1,6 +1,6 @@
 package process;
 
-import middle.Elevator;
+import middle.Statement;
 import middle.InputBuffer;
 
 import java.util.*;
@@ -13,11 +13,11 @@ import java.util.*;
  */
 public class Process {
     private InputBuffer inputBuffer;
-    private Elevator elevator;
+    private Statement elevator;
 
     public Process() {
         inputBuffer = InputBuffer.getInstance();
-        elevator = Elevator.getInstance();
+        elevator = Statement.getInstance();
     }
 
     public void process() {
@@ -28,18 +28,18 @@ public class Process {
 
     class Job extends TimerTask {
         private ArrayList<Integer> createTargetFloorList() {
-            Elevator.ServiceState serviceState = elevator.getServiceState();
-            if (serviceState == Elevator.ServiceState.STOP) {
+            Statement.ServiceState serviceState = elevator.getServiceState();
+            if (serviceState == Statement.ServiceState.STOP) {
                 return null;
             }
-            Elevator.MoveState moveState = elevator.getMoveState();
+            Statement.MoveState moveState = elevator.getMoveState();
             int currentFloor = elevator.getCurrentFloor();
             List<Integer> selectionFloorsInElevator = inputBuffer.getAllSelectionFloorInElevator();
 
             List<Integer> selectionFloorOutsideList = null;
-            if (moveState == Elevator.MoveState.UP) {
+            if (moveState == Statement.MoveState.UP) {
                 selectionFloorOutsideList = inputBuffer.getAllSelectionFloorOutside("UP");
-            } else if (moveState == Elevator.MoveState.DOWN) {
+            } else if (moveState == Statement.MoveState.DOWN) {
                 selectionFloorOutsideList = inputBuffer.getAllSelectionFloorOutside("DOWN");
             }else {
                 selectionFloorOutsideList = inputBuffer.getAllSelectionFloorOutside();
@@ -54,7 +54,7 @@ public class Process {
             ArrayList<Integer> result = new ArrayList<Integer>();
             ArrayList<Integer> temp = new ArrayList<Integer>(set);
             Collections.sort(temp);
-            if (moveState == Elevator.MoveState.UP) {
+            if (moveState == Statement.MoveState.UP) {
                 for (int i = 0; i < temp.size(); i++) {
                     int targetFloor = temp.get(i);
                     if (currentFloor <= targetFloor) {
@@ -77,7 +77,7 @@ public class Process {
                         }
                     }
                 }
-            } else if (moveState == Elevator.MoveState.DOWN) {
+            } else if (moveState == Statement.MoveState.DOWN) {
                 for (int i = temp.size() - 1; i >= 0; i--) {
                     int targetFloor = temp.get(i);
                     if (currentFloor >= targetFloor) {
@@ -100,7 +100,7 @@ public class Process {
                         }
                     }
                 }
-            } else if (moveState == Elevator.MoveState.NO_MOVE) {
+            } else if (moveState == Statement.MoveState.NO_MOVE) {
                 if (currentFloor == 1) {
                     for (int i = 0; i < temp.size(); i++) {
                         int targetFloor = temp.get(i);
