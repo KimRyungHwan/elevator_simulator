@@ -1,6 +1,6 @@
 package main;
 
-import gui.Gui;
+import gui.MainFrame;
 import middle.InputBuffer;
 import process.Process;
 
@@ -9,13 +9,13 @@ import process.Process;
  */
 public class Main {
     private InputBuffer inputBuffer;
-    private Gui gui;
+    private MainFrame gui;
     private process.Process process;
 
     public Main() {
         inputBuffer = InputBuffer.getInstance();
         process = new Process();
-        gui = new Gui();
+        mainFrame = new MainFrame();
     }
 
     public static void main(String[] args) {
@@ -23,7 +23,7 @@ public class Main {
     }
 
     public void mainProcess() {
-        gui.showGui();
+        mainFrame.showGui();
         process.process();
     }
 }
