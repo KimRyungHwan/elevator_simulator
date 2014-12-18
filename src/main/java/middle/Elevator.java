@@ -12,20 +12,18 @@ public class Elevator {
     private static Elevator instance = null;
     public final int SPEED = 4;
 
-    public DoorState getCurrentDoorState() {
-        return currentDoorState;
-    }
+
 
 
     public enum DoorState {OPEN, OPENING, CLOSE, CLOSEING}
 
-    private DoorState currentDoorState = DoorState.CLOSE;
+    public enum MoveState {UP, DOWN, NO_MOVE}
 
     public enum ServiceState {SERVICE, PAUSE, STOP}
 
+    private DoorState currentDoorState = DoorState.CLOSE;
     private ServiceState currentServiceState = ServiceState.PAUSE;
 
-    public enum MoveState {UP, DOWN, NO_MOVE}
 
     private MoveState currentMoveState = MoveState.NO_MOVE;
     private List<Integer> targetFloors = Collections.synchronizedList(new ArrayList<Integer>());
@@ -38,23 +36,6 @@ public class Elevator {
         timer.schedule(checkState, 0, 34);
     }
 
-    public MoveState getMoveState() {
-        return currentMoveState;
-    }
-
-    public ServiceState getServiceState() {
-        return currentServiceState;
-    }
-
-    public void setServiceState(ServiceState currentServiceState) {
-        this.currentServiceState = currentServiceState;
-    }
-
-    public void setMoveState(MoveState moveState) {
-        currentMoveState = moveState;
-    }
-
-
     public static Elevator getInstance() {
         if (instance == null) {
             synchronized (InputBuffer.class) {
@@ -65,6 +46,36 @@ public class Elevator {
         }
         return instance;
     }
+
+    //getters
+    public DoorState getCurrentDoorState() {
+        return currentDoorState;
+    }
+
+
+
+
+    public MoveState getMoveState() {
+        return currentMoveState;
+    }
+
+    public ServiceState getServiceState() {
+        return currentServiceState;
+    }
+
+    public int getCurrentFloor() { return currentFloor; }
+    //setters
+
+    public void setServiceState(ServiceState currentServiceState) {
+        this.currentServiceState = currentServiceState;
+    }
+
+    public void setMoveState(MoveState moveState) {
+        currentMoveState = moveState;
+    }
+
+
+
 
     public void setCurrentFloor(int floor) {
         currentFloor = floor;
@@ -82,8 +93,11 @@ public class Elevator {
         }
     }
 
+    //inner class
+
     class CheckState extends TimerTask {
         private void changeState() {
+            //Check the target floor and determine the movement
             if (!targetFloors.isEmpty()) {
                 currentServiceState = ServiceState.SERVICE;
                 if(currentMoveState == MoveState.NO_MOVE){
@@ -102,6 +116,7 @@ public class Elevator {
                         targetFloors.remove(0);
                         try {
                             int interval = 300;
+                            //Open and close the door (only statement changing)
                             currentDoorState = DoorState.OPENING;
                             Thread.sleep(interval);
                             currentDoorState = DoorState.OPEN;
