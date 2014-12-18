@@ -12,7 +12,7 @@ import java.util.List;
 /*
 타이머를 통해서 일정 시간 마다 건물을 그리는 클래스
  */
-class Buliding extends Panel{
+class MainPanel extends Panel{
     private BuildingPanel buildingPanel;
     private ElevatorBtnPanel elevatorBtnPanel;
     private ArrayList<FloorBtnPanel> floorBtnPanels;
@@ -20,7 +20,7 @@ class Buliding extends Panel{
     private int numOfFloor;
     private String ID;
 
-    public Buliding(String ID, int numOfFloor, int x, int y){
+    public MainPanel(String ID, int numOfFloor, int x, int y){
         this.ID = ID;
         this.numOfFloor = numOfFloor;
 
