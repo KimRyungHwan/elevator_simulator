@@ -1,13 +1,14 @@
 package gui;
 
 import java.awt.*;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 /**
  * Created by ksh on 2014-05-24.
  */
-public class Gui extends Frame implements WindowListener {
+public class Gui extends Frame {
 
     public Gui() {
     }
@@ -21,9 +22,16 @@ public class Gui extends Frame implements WindowListener {
         setVisible(true);
         setLayout(null);
 
-     //   createMenu();
+        //   createMenu();
 
-        addWindowListener(this);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                dispose();
+                System.exit(0);
+            }
+        });
 
         Panel panel = new Buliding("1b", 8, 20, 70);
         add(panel);
@@ -37,42 +45,6 @@ public class Gui extends Frame implements WindowListener {
         menuBar.add(settingMenu);
 
         setMenuBar(menuBar);
-
-    }
-
-    @Override
-    public void windowOpened(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowClosing(WindowEvent e) {
-        dispose();
-        System.exit(0);
-    }
-
-    @Override
-    public void windowClosed(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowIconified(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowActivated(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent e) {
 
     }
 }
